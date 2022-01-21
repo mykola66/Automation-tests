@@ -19,8 +19,8 @@ public class ShopPage extends BasePage{
 //        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(allAvailableItemsLocator));
         return driver.findElements(allAvailableItemsLocator);
     }
-    private List<Integer> getItemNumbers() {
-        int numberOfItems = getAllItems().size();
+    private List<Integer> getItemNumbers(List<WebElement> list) {
+        int numberOfItems = list.size();
         List<Integer> selectedNumbers = new ArrayList<>();
         Random random = new Random();
         while(selectedNumbers.size() < 2) {
@@ -72,8 +72,8 @@ public class ShopPage extends BasePage{
         }
     }
 
-    public CheckoutPage checkoutItem() {
-        List<Integer> numbersOfItems = getItemNumbers();
+    public CheckoutPage checkoutItemWithoutDetails() {
+        List<Integer> numbersOfItems = getItemNumbers(getAllItems());
         WebElement item1 = getAllItems().get(numbersOfItems.get(0));
         addItem(item1);
         getClose().click();
@@ -81,6 +81,106 @@ public class ShopPage extends BasePage{
         WebElement item2 = getAllItems().get(numbersOfItems.get(1));
         addItem(item2);
         getCheckout().click();
+        return new CheckoutPage(driver);
+    }
+    private List<WebElement> getItemsWithDetails(){
+        By itemsLocator = By.xpath("//*[@title='View Details']");
+        return driver.findElements(itemsLocator);
+    }
+    private List<WebElement> getAllDetails(){
+        By allDetails = By.xpath("//select[contains(@name,'super')]");
+        return driver.findElements(allDetails);
+    }
+    private List<WebElement> getDetail1(){
+        By detail = By.xpath("(//select)[1][contains(@name,'super')]/*[@value]");
+        return driver.findElements(detail);
+    }
+    private List<WebElement> getDetail2(){
+        By detail = By.xpath("(//select)[2][contains(@name,'super')]/*[@value]");
+        return driver.findElements(detail);
+    }
+    private List<WebElement> getDetail3(){
+        By detail = By.xpath("(//select)[3][contains(@name,'super')]/*[@value]");
+        return driver.findElements(detail);
+    }
+    private List<WebElement> getQtyOptions(){
+        By qtyOptionsLocator = By.xpath("//select[@name='qty']/option[@value<5]");
+        return driver.findElements(qtyOptionsLocator);
+    }
+    private WebElement getChoice(List<WebElement> options,int x,int y){
+        Random random = new Random();
+        int maxOptions = options.size();
+        int randomOption = random.nextInt(maxOptions-y)+x;
+        System.out.println(randomOption);
+        return options.get(randomOption);
+    }
+
+    private void selectDetailsInItem1() {
+        List<WebElement> details = getAllDetails();
+        while (true){
+            if(details.size()==0){
+                getChoice(getQtyOptions(),0,0).click();
+                return;
+            }if(details.size()==1) {
+                getChoice(getDetail1(),1,1).click();
+                getChoice(getQtyOptions(),0,0).click();
+                return;
+            }if(details.size()==2){
+                getChoice(getDetail1(),1,1).click();
+                getChoice(getDetail2(),1,1).click();
+                getChoice(getQtyOptions(),0,0).click();
+                return;
+            }
+        }
+    }
+    private void selectDetailsInItem2() {
+        List<WebElement> details = getAllDetails();
+        while (true){
+            if(details.size()==0){
+                getChoice(getQtyOptions(),0,0).click();
+                return;
+            }if(details.size()==1) {
+                getChoice(getDetail2(),1,1).click();
+                getChoice(getQtyOptions(),0,0).click();
+                return;
+            }if(details.size()==2){
+                getChoice(getDetail2(),1,1).click();
+                getChoice(getDetail3(),1,1).click();
+                getChoice(getQtyOptions(),0,0).click();
+                return;
+            }
+        }
+    }
+    public void selectItemWithDetails(WebElement element) {
+        Actions actions = new Actions(driver);
+        for (int i = 0; i<3; i++) {
+            try {
+                actions.moveToElement(element);
+                actions.click(element).build().perform();
+                return;
+            } catch (StaleElementReferenceException | TimeoutException ignored) {
+                try {
+                    Thread.sleep(300);
+                    } catch (InterruptedException ignored3) {
+                    }
+                }
+            }
+        }
+
+    public CheckoutPage checkoutItemWithDetails() throws InterruptedException {
+        List<Integer> numbersOfItems = getItemNumbers(getItemsWithDetails());
+        WebElement item1 = getItemsWithDetails().get(numbersOfItems.get(0));
+        selectItemWithDetails(item1);
+        selectDetailsInItem1();
+        addToCart().click();
+        getClose().click();
+        driver.navigate().back();
+        WebElement item2 = getItemsWithDetails().get(numbersOfItems.get(1));
+        selectItemWithDetails(item2);
+        selectDetailsInItem2();
+        addToCart().click();
+        getCheckout().click();
+        Thread.sleep(3000);
         return new CheckoutPage(driver);
     }
 }

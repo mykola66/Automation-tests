@@ -13,8 +13,8 @@ public class BaseTests {
 
     @BeforeMethod
     public void startUp() {
-        WebDriverManager.edgedriver().setup();
-        driver = new EdgeDriver();
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
     }
 
     @AfterMethod
