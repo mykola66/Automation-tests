@@ -53,7 +53,7 @@ public class ShopPage extends BasePage{
 
     public void addItem(WebElement element) {
         Actions actions = new Actions(driver);
-        for (int i = 0;i<3; i++) {
+        for (int i = 0;i<10; i++) {
             try {
                 actions.moveToElement(element).perform();
                 actions.click().build().perform();
