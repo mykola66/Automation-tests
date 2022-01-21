@@ -14,7 +14,7 @@ public class ShopPage extends BasePage{
         super(driver);
     }
     private List<WebElement> getAllItems() {
-        By allAvailableItemsLocator = By.xpath("//*[@title='Add to Cart']");
+        By allAvailableItemsLocator = By.xpath("//*[@class]/form/*[@title='Add to Cart']");
 //        By allItemsLocator = By.className("item");
 //        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(allAvailableItemsLocator));
         return driver.findElements(allAvailableItemsLocator);
@@ -53,9 +53,9 @@ public class ShopPage extends BasePage{
 
     public void addItem(WebElement element) {
         Actions actions = new Actions(driver);
-        for (int i = 0; true; i++) {
+        for (int i = 0;i<3; i++) {
             try {
-                actions.moveToElement(element);
+                actions.moveToElement(element).perform();
                 actions.click().build().perform();
                 actions.click(addToCart()).perform();
                 return;
@@ -111,7 +111,6 @@ public class ShopPage extends BasePage{
         Random random = new Random();
         int maxOptions = options.size();
         int randomOption = random.nextInt(maxOptions-y)+x;
-        System.out.println(randomOption);
         return options.get(randomOption);
     }
 
