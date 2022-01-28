@@ -32,4 +32,13 @@ public class ShopTests extends BaseTests{
         CheckoutPage checkoutPage = shopPage.checkoutItemWithDetails();
         Assert.assertTrue(checkoutPage.itemsAreInCheckoutPage());
     }
+    @Test
+    public void shopTest_selectItemFromMainPage_itemIsSelected() throws InterruptedException {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.openMainPage("https://www.wahoofitness.com/");
+        ShopPage shopPage = mainPage.getShopPageProduct();
+        CheckoutPage checkoutPage = shopPage.checkoutSelectedProduct();
+        Assert.assertTrue(checkoutPage.itemsAreInCheckoutPage());
+
+    }
 }

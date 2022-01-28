@@ -114,42 +114,25 @@ public class ShopPage extends BasePage{
         return options.get(randomOption);
     }
 
-    private void selectDetailsInItem1() {
+    private void selectDetailsInItem(List<WebElement> lis1, List<WebElement> list2) {
         List<WebElement> details = getAllDetails();
         while (true){
             if(details.size()==0){
                 getChoice(getQtyOptions(),0,0).click();
                 return;
             }if(details.size()==1) {
-                getChoice(getDetail1(),1,1).click();
+                getChoice(lis1,1,1).click();
                 getChoice(getQtyOptions(),0,0).click();
                 return;
             }if(details.size()==2){
-                getChoice(getDetail1(),1,1).click();
-                getChoice(getDetail2(),1,1).click();
+                getChoice(lis1,1,1).click();
+                getChoice(list2,1,1).click();
                 getChoice(getQtyOptions(),0,0).click();
                 return;
             }
         }
     }
-    private void selectDetailsInItem2() {
-        List<WebElement> details = getAllDetails();
-        while (true){
-            if(details.size()==0){
-                getChoice(getQtyOptions(),0,0).click();
-                return;
-            }if(details.size()==1) {
-                getChoice(getDetail2(),1,1).click();
-                getChoice(getQtyOptions(),0,0).click();
-                return;
-            }if(details.size()==2){
-                getChoice(getDetail2(),1,1).click();
-                getChoice(getDetail3(),1,1).click();
-                getChoice(getQtyOptions(),0,0).click();
-                return;
-            }
-        }
-    }
+
     public void selectItemWithDetails(WebElement element) {
         Actions actions = new Actions(driver);
         for (int i = 0; i<3; i++) {
@@ -170,16 +153,24 @@ public class ShopPage extends BasePage{
         List<Integer> numbersOfItems = getItemNumbers(getItemsWithDetails());
         WebElement item1 = getItemsWithDetails().get(numbersOfItems.get(0));
         selectItemWithDetails(item1);
-        selectDetailsInItem1();
+        selectDetailsInItem(getDetail1(),getDetail2());
         addToCart().click();
         getClose().click();
         driver.navigate().back();
         WebElement item2 = getItemsWithDetails().get(numbersOfItems.get(1));
         selectItemWithDetails(item2);
-        selectDetailsInItem2();
+        selectDetailsInItem(getDetail2(),getDetail3());
         addToCart().click();
         getCheckout().click();
         Thread.sleep(3000);
+        return new CheckoutPage(driver);
+    }
+
+    public CheckoutPage checkoutSelectedProduct(){
+
+        selectDetailsInItem(getDetail1(),getDetail2());
+        addToCart().click();
+        getCheckout().click();
         return new CheckoutPage(driver);
     }
 }

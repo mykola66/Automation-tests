@@ -55,14 +55,7 @@ public class CheckoutPage extends BasePage{
         By phoneNumberLocator = By.xpath("//*[@name='telephone']");
         return driver.findElement(phoneNumberLocator);
     }
-    private WebElement getStateField(){
-        By stateFieldLocator = By.xpath("//*[@name='region_id']");
-        return driver.findElement(stateFieldLocator);
-    }
-    private WebElement getCountryField(){
-        By countryFieldLocator = By.xpath("//*[@name='country_id']");
-        return driver.findElement(countryFieldLocator);
-    }
+
     private WebElement getShippingMethod(){
         By shippingMethodLocator = By.xpath("(//*[@type='radio'])[2]");
         return driver.findElement(shippingMethodLocator);
