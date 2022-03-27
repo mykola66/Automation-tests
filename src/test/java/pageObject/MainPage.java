@@ -6,9 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -32,39 +29,43 @@ public class MainPage extends BasePage{
         }
     }
 
-    public ShopPage getShopPage(){
-        getShopElement().click();
+    public AllProductsPage getAllProductsPage(){
         closeSignup();
-        return new ShopPage(driver);
+        getShopElement().click();
+        return new AllProductsPage(driver);
     }
 
     private List<WebElement> getProductsList(){
-        By products = By.xpath("//*[@data-pb-style='PFKIO78']/ul/li/a[@tabindex='0']");
+        By products = By.xpath("//*[@data-pb-style='RXRL1LA']/ul/li/a[@tabindex='0']");
         return driver.findElements(products);
     }
 
-    private WebElement getRandomProduct(List<WebElement> list) {
+    private WebElement getRandomWebElement(List<WebElement> list,int x) {
         int numberOfAllProduct = list.size();
          Random random = new Random();
-          int randomProduct = random.nextInt(numberOfAllProduct-7);
+          int randomProduct = random.nextInt(numberOfAllProduct-x);
          System.out.println(list.get(randomProduct).getText());
         return list.get(randomProduct);
     }
-    private WebElement buttonBuy(){
-        By buyNowButton = By.xpath("//*[text()='BUY NOW']");
-        wait.until(ExpectedConditions.elementToBeClickable(buyNowButton));
-        return driver.findElement(buyNowButton);
+
+    private List<WebElement> getButtonBuy(){
+        By buyButton = By.xpath("//*[@class='button learn_more blue']/span[contains(text(),'B')]");
+        return driver.findElements(buyButton);
     }
-    public ShopPage getShopPageProduct() throws InterruptedException {
+    public ItemPage getShopPageProduct(){
         closeSignup();
         Actions actions = new Actions(driver);
         actions.moveToElement(getShopElement()).perform();
-        WebElement product = getRandomProduct(getProductsList());
+        WebElement product = getRandomWebElement(getProductsList(),3);
         wait.until(ExpectedConditions.elementToBeClickable(product));
         actions.moveToElement(product).click().perform();
-//        Thread.sleep(2000);
-        buttonBuy().click();
-        return new ShopPage(driver);
+        WebElement buttonBuy = getRandomWebElement(getButtonBuy(),0);
+        actions.click(buttonBuy).perform();
+        return new ItemPage(driver);
     }
+
+
+
+
 
 }

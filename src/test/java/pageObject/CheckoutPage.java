@@ -14,7 +14,7 @@ public class CheckoutPage extends BasePage{
         By itemsLocator = By.xpath("//*[@class='product-item-inner']");
         try {
             List<WebElement> items = driver.findElements(itemsLocator);
-            wait.until(ExpectedConditions.visibilityOfAllElements(items));
+//            wait.until(ExpectedConditions.visibilityOfAllElements(items));
             for (WebElement item : items) {
                 System.out.println(item.getText());
                 item.isEnabled();

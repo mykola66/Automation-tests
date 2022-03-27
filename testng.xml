@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Main test suite">
+    <parameter name="url" value="https://www.wahoofitness.com/"/>
+    <parameter name="browser" value="chrome"/>
+    <test name="Selenium test">
+        <classes>
+            <class name="pageObjectTests.ShopTests">
+                <methods>
+                    <include name="shopTests_selectItemsWithoutDetails_itemsAreSelected"/>
+                    <include name="shopTests_placeOrder_orderIsPlaced"/>
+                    <include name="shopTests_selectItemsWithDetails_itemsAreSelected"/>
+                    <include name="shopTest_selectItemFromMainPage_itemIsSelected"/>
+                    <include name="shopTest_removeItemFromCart_itemIsRemoved"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
