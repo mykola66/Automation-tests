@@ -5,13 +5,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
+import java.util.Random;
 
 public class CheckoutPage extends BasePage{
     public CheckoutPage(WebDriver driver){
         super(driver);
     }
     public boolean itemsAreInCheckoutPage(){
-        By itemsLocator = By.xpath("//*[@class='product-item-inner']");
+        By itemsLocator = By.xpath("//*[@class='product-item']");
         try {
             List<WebElement> items = driver.findElements(itemsLocator);
 //            wait.until(ExpectedConditions.visibilityOfAllElements(items));
@@ -81,17 +82,17 @@ public class CheckoutPage extends BasePage{
         wait.until(ExpectedConditions.elementToBeClickable(placeOrderButtonLocator));
         return driver.findElement(placeOrderButtonLocator);
     }
-    private void clickPlaceOrderButton(){
-        try{
-            driver.switchTo().defaultContent();
-            Thread.sleep(2000);
-            getPlaceOrderButton().click();
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='OK']")));
-            driver.findElement(By.xpath("//*[text()='OK']")).click();
-            getPlaceOrderButton().click();
-        }catch (ElementNotInteractableException | NoSuchElementException | TimeoutException | InterruptedException ignored){
-        }
-    }
+//    private void clickPlaceOrderButton(){
+//        try{
+//            driver.switchTo().defaultContent();
+//            Thread.sleep(2000);
+//            getPlaceOrderButton().click();
+//            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='OK']")));
+//            driver.findElement(By.xpath("//*[text()='OK']")).click();
+//            getPlaceOrderButton().click();
+//        }catch (ElementNotInteractableException | NoSuchElementException | TimeoutException | InterruptedException ignored){
+//        }
+//    }
 
     public void placeOrder() throws InterruptedException {
         getEmailField().sendKeys("smorris@gmail.com");
@@ -130,6 +131,46 @@ public class CheckoutPage extends BasePage{
             return true;
         }catch (TimeoutException err){
             return false;
+        }
+    }
+    public List<WebElement> getItems(){
+        By itemLocator = By.xpath("//*[@class='product-item']");
+        return driver.findElements(itemLocator);
+    }
+    private int getItemNumberForRemove() {
+        List<WebElement> list = getItems();
+        Random random = new Random();
+        int randomItemNumber = random.nextInt(list.size())+1;
+        return randomItemNumber;
+    }
+    private WebElement getDelete(int x){
+        By removeLocator = By.xpath("(//*[@class='delete'])["+x+"]");
+        return driver.findElement(removeLocator);
+    }
+    private WebElement getItemForDelete(int x){
+        By itemLocator = By.xpath("(//*[@class='product-item-name-block'])["+x+"]");
+        return driver.findElement(itemLocator);
+    }
+    private WebElement getAccept(){
+        By acceptLocator = By.xpath("//*[@class='action-primary action-accept']");
+        return driver.findElement(acceptLocator);
+    }
+    public String deleteItem(){
+        int numberItem = getItemNumberForRemove();
+        WebElement removeItem = getItemForDelete(numberItem);
+        String item = removeItem.getText();
+        System.out.println(removeItem.getText());
+        getDelete(numberItem).click();
+        getAccept().click();
+        return item;
+    }
+    public boolean itemIsDeleted(String deletedItem) {
+        By itemsLocator = By.xpath("//*[text()='"+deletedItem+"']");
+        try {
+            driver.findElement(itemsLocator);
+            return false;
+        }catch (NoSuchElementException err){
+            return true;
         }
     }
 }

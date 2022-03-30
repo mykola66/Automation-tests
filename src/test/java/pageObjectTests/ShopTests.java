@@ -85,4 +85,21 @@ public class ShopTests extends BaseTests{
         String itemForRemove = cartPage.removeItem();
         Assert.assertTrue((cartPage.itemIsRemoved(itemForRemove)));
     }
+    @Test(retryAnalyzer = RetryAnalyzer.class)
+    public void shopTest_deleteItemFromCheckoutPage_itemIsDeleted(){
+        MainPage mainPage = new MainPage(driver);
+        mainPage.openMainPage(url);
+        AllProductsPage allProductsPage = mainPage.getAllProductsPage();
+        List<Integer> items = allProductsPage.getItemNumbersWithoutDetails();
+        WebElement item1 = allProductsPage.getItemsWithoutDetails().get(items.get(0));
+        ItemPage itemPage1 = allProductsPage.selectItemWithoutDetails(item1);
+        itemPage1.addItemToCart();
+        itemPage1.backToAllProducts();
+        WebElement item2 = allProductsPage.getItemsWithoutDetails().get(items.get(1));
+        ItemPage itemPage2 = allProductsPage.selectItemWithoutDetails(item2);
+        itemPage2.addItemToCart();
+        CheckoutPage checkoutPage = itemPage2.moveToCheckout();
+        String itemForDelete = checkoutPage.deleteItem();
+        Assert.assertTrue((checkoutPage.itemIsDeleted(itemForDelete)));
+    }
 }

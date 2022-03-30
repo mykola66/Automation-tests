@@ -30,7 +30,7 @@ public class MainPage extends BasePage{
     }
 
     public AllProductsPage getAllProductsPage(){
-        closeSignup();
+//        closeSignup();
         getShopElement().click();
         return new AllProductsPage(driver);
     }
@@ -53,7 +53,7 @@ public class MainPage extends BasePage{
         return driver.findElements(buyButton);
     }
     public ItemPage getShopPageProduct(){
-        closeSignup();
+//        closeSignup();
         Actions actions = new Actions(driver);
         actions.moveToElement(getShopElement()).perform();
         WebElement product = getRandomWebElement(getProductsList(),3);
