@@ -7,11 +7,11 @@
         <classes>
             <class name="pageObjectTests.ShopTests">
                 <methods>
-<!--                    <include name="shopTests_selectItemsWithoutDetails_itemsAreSelected"/>-->
-<!--                    <include name="shopTests_placeOrder_orderIsPlaced"/>-->
-<!--                    <include name="shopTests_selectItemsWithDetails_itemsAreSelected"/>-->
-<!--                    <include name="shopTest_selectItemFromMainPage_itemIsSelected"/>-->
-<!--                    <include name="shopTest_removeItemFromCart_itemIsRemoved"/>-->
+                    <include name="shopTests_selectItemsWithoutDetails_itemsAreSelected"/>
+                    <include name="shopTests_placeOrder_orderIsPlaced"/>
+                    <include name="shopTests_selectItemsWithDetails_itemsAreSelected"/>
+                    <include name="shopTest_selectItemFromMainPage_itemIsSelected"/>
+                    <include name="shopTest_removeItemFromCart_itemIsRemoved"/>
                     <include name="shopTest_deleteItemFromCheckoutPage_itemIsDeleted"/>
                 </methods>
             </class>
