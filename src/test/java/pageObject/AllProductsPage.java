@@ -80,40 +80,17 @@ public class AllProductsPage extends BasePage {
         return new ItemPage(driver);
     }
 
-    //        getClose().click();
-//        driver.navigate().back();
-//        WebElement item2 = getAllItems().get(numbersOfItems.get(1));
-//        selectItem(item2);
-//        getCheckout().click();
-//        return new CheckoutPage(driver);
-//    }
     public List<WebElement> getItemsWithDetails() {
         By itemsLocator = By.xpath("//*[@title='View Details']");
         return driver.findElements(itemsLocator);
     }
 
-    //    public void selectItemWithDetails(WebElement element) {
-//        Actions actions = new Actions(driver);
-//        for (int i = 0; i<3; i++) {
-//            try {
-//                actions.moveToElement(element);
-//                actions.click(element).build().perform();
-//                return;
-//            } catch (StaleElementReferenceException | TimeoutException ignored) {
-//                try {
-//                    Thread.sleep(300);
-//                } catch (InterruptedException ignored3) {
-//                }
-//            }
-//        }
-//    }
     public List<Integer> getItemNumbersWithDetails() {
         List<Integer> numbersOfItems = getItemNumbers(getItemsWithDetails());
         return numbersOfItems;
     }
 
     public ItemPage selectItemWithDetails(WebElement element) {
-//        wait.until(ExpectedConditions.elementToBeClickable(element));
         selectItem(element);
         return new ItemPage(driver);
     }

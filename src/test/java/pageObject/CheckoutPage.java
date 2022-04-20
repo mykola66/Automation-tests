@@ -145,6 +145,7 @@ public class CheckoutPage extends BasePage{
     }
     private WebElement getDelete(int x){
         By removeLocator = By.xpath("(//*[@class='delete'])["+x+"]");
+        wait.until(ExpectedConditions.elementToBeClickable(removeLocator));
         return driver.findElement(removeLocator);
     }
     private WebElement getItemForDelete(int x){
@@ -153,6 +154,7 @@ public class CheckoutPage extends BasePage{
     }
     private WebElement getAccept(){
         By acceptLocator = By.xpath("//*[@class='action-primary action-accept']");
+        wait.until(ExpectedConditions.elementToBeClickable(acceptLocator));
         return driver.findElement(acceptLocator);
     }
     public String deleteItem(){
